@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "animate.css";
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
