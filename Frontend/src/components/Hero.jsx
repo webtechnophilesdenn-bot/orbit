@@ -19,7 +19,7 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="relative w-full min-h-screen px-6 md:px-16 pt-24 pb-16 lg:pt-32 lg:pb-20 bg-white overflow-hidden flex items-center">
+        <section className="relative w-full min-h-screen px-6 md:px-16 pt-12 pb-16 lg:pt-12 lg:pb-22 bg-white overflow-hidden flex items-center">
 
             {/* Optional: Subtle Background Decoration */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
