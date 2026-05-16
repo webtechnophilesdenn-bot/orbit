@@ -71,33 +71,44 @@ export function ProductCard({ product, index }) {
   const { name, description, icon: Icon, color, route } = product;
   const c = colorMap[color] || colorMap.blue;
 
+  // Track mouse for Spotlight effect
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return (
-    <motion.div
-      custom={index}
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" className="h-full">
       <Link
         to={route}
+        onMouseMove={handleMouseMove}
         id={`product-card-${route.replace('/', '')}`}
-        className={`group relative flex flex-col gap-4 rounded-2xl border border-gray-100 border-t-2 border-t-transparent bg-white p-6 shadow-md transition-all duration-200 hover:shadow-xl ${c.shadow} hover:-translate-y-1.5 ${c.border}`}
+        className={`group relative flex h-[190px] overflow-hidden flex-col gap-4 rounded-2xl border border-gray-100 border-t-2 border-t-transparent bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl ${c.shadow} hover:-translate-y-1.5 ${c.border}`}
       >
+        {/* ── Spotlight Gradient Layer ── */}
+        <div 
+          className="pointer-events-none absolute -inset-px z-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ background: 'radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(99, 102, 241, 0.12), transparent 40%)' }}
+        />
+
         {/* Icon in tinted rounded square */}
-        <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${c.iconBg} transition-colors duration-200`}>
+        <div className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-xl ${c.iconBg} transition-colors duration-200`}>
           <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${c.icon} text-white shadow-sm`}>
             <Icon className="h-5 w-5" strokeWidth={1.8} />
           </div>
         </div>
 
         {/* Text */}
-        <div className="flex-1 min-h-[3.5rem]">
+        <div className="relative z-10 flex-1 min-h-[3.5rem]">
           <h3 className="text-[15px] font-bold text-gray-900 tracking-tight">{name}</h3>
-          <p className="mt-1 text-[13px] leading-relaxed text-gray-400">{description}</p>
+          <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-gray-400">{description}</p>
         </div>
 
-        {/* Open Arrow — always slightly visible, full on hover */}
-        <div className={`flex items-center gap-1.5 text-[13px] font-semibold ${c.text} opacity-40 transition-all duration-200 group-hover:opacity-100`}>
+        {/* Open Arrow */}
+        <div className={`relative z-10 flex items-center gap-1.5 text-[13px] font-semibold ${c.text} opacity-40 transition-all duration-200 group-hover:opacity-100`}>
           Open
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
         </div>
@@ -110,32 +121,45 @@ export function ProductCard({ product, index }) {
    Coming Soon Card
    ═══════════════════════════════════════ */
 export function ComingSoonCard({ index }) {
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return (
-    <motion.div
-      custom={index}
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      className="group relative flex flex-col gap-4 rounded-2xl border border-dashed border-gray-200/80 bg-gray-50/40 p-6 grayscale-[40%] opacity-50 select-none transition-all duration-200 hover:opacity-60"
-    >
-      {/* Icon Placeholder */}
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200/80 text-gray-400">
-          <Clock className="h-5 w-5" strokeWidth={1.8} />
+    <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" className="h-full">
+      <div 
+        onMouseMove={handleMouseMove}
+        className="group relative flex h-[190px] overflow-hidden flex-col gap-4 rounded-2xl border border-dashed border-gray-200/80 bg-gray-50/40 p-6 select-none transition-all duration-300 hover:bg-white hover:shadow-md cursor-not-allowed"
+      >
+        {/* ── Spotlight Gradient Layer ── */}
+        <div 
+          className="pointer-events-none absolute -inset-px z-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ background: 'radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(148, 163, 184, 0.15), transparent 40%)' }}
+        />
+
+        {/* Icon Placeholder */}
+        <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200/80 text-gray-400">
+            <Clock className="h-5 w-5" strokeWidth={1.8} />
+          </div>
         </div>
-      </div>
 
-      {/* Text */}
-      <div className="flex-1 min-h-[3.5rem]">
-        <h3 className="text-[15px] font-bold text-gray-400 tracking-tight">Coming Soon</h3>
-        <p className="mt-1 text-[13px] text-gray-400">New product launching soon</p>
-      </div>
+        {/* Text */}
+        <div className="relative z-10 flex-1 min-h-[3.5rem]">
+          <h3 className="text-[15px] font-bold text-gray-400 tracking-tight">Coming Soon</h3>
+          <p className="mt-1 line-clamp-2 text-[13px] text-gray-400">New product launching soon</p>
+        </div>
 
-      {/* Badge — pill style top right */}
-      <span className="absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-gray-200/80 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-gray-500 uppercase">
-        <Lock className="h-2.5 w-2.5" />
-        Soon
-      </span>
+        {/* Badge — pill style top right */}
+        <span className="relative z-10 absolute top-4 right-4 inline-flex items-center gap-1 rounded-full bg-gray-200/80 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-gray-500 uppercase">
+          <Lock className="h-2.5 w-2.5" />
+          Soon
+        </span>
+      </div>
     </motion.div>
   );
 }
