@@ -15,6 +15,7 @@ import WhoWeAre from "./components/WhoWeAre";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
+import ProductPlaceholder from "./pages/ProductPlaceholder";
 
 /* ─── Protected Route Wrapper ─── */
 function ProtectedRoute({ children }) {
@@ -88,6 +89,26 @@ export default function App() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* DASHBOARD (protected) */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* PRODUCT PAGES (protected) */}
+      <Route
+        path="/:product"
+        element={
+          <ProtectedRoute>
+            <ProductPlaceholder />
           </ProtectedRoute>
         }
       />
